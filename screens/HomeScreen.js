@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { projectFirestore, timestamp } from '../firebase/config'
-import { useFirestore } from '../hooks/useFirestore'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
@@ -14,7 +13,6 @@ import { useLogout } from '../hooks/useLogout'
 export default function HomeScreen({ navigation }){
   const { user } = useAuthContext()
   const { logout } = useLogout()
-  const { updateDocument, response } = useFirestore('users')
   const [today, setToday] = useState(null);
   const [date, setDate] = useState(null);
 
@@ -26,9 +24,9 @@ export default function HomeScreen({ navigation }){
     setToday(today)
   }, []);
 
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     const createdBy = { 
       displayName: user.displayName, 
       photoURL: user.photoURL,
@@ -43,17 +41,10 @@ export default function HomeScreen({ navigation }){
       lifts: [],
     }
 
-    const userWorkout = {
-      createdAt: timestamp.fromDate(new Date()),
-      sessionLoad: 0, 
-    }
-
-    await updateDocument(user.uid, {
-      workouts: [...workouts, userWorkout],
-      sessionLoad,
-    })
-
     const {id} = await projectFirestore.collection("workouts").add(workout)
+    navigation.navigate('Session', {
+      workoutId: id,
+    });
   }
 
 

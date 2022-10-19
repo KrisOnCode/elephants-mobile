@@ -43,7 +43,6 @@ export default function SignupScreen({ navigation }) {
           backgroundColor: '#fff',
           marginBottom: 20
         }}
-        leftIcon='email'
         placeholder='Choose a username'
         autoCapitalize='none'
         keyboardType='default'
