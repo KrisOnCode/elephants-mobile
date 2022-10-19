@@ -56,23 +56,71 @@ export default function HomeScreen({ navigation }){
 
     return (
       <View style={styles.container}>
-         <StatusBar style='light' />
+        <StatusBar style="light" />
         <View style={styles.content}>
-        <View style={styles.row}>
-              <Text style={styles.paragraph}>START A WORKOUT</Text>
-            </View>
           <View style={styles.row}>
-            <MaterialCommunityIcons onPress={handleSubmit} name="plus-circle" size={72} color="white" />
+            <Text style={styles.paragraph}>START A WORKOUT</Text>
           </View>
           <View style={styles.row}>
-            <Text onPress={logout} style={styles.paragraph}> LOGOUT</Text>
+            <MaterialCommunityIcons
+              onPress={handleSubmit}
+              name="plus-circle"
+              size={72}
+              color="white"
+            />
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.paragraph}>PAST WORKOUTS</Text>
+          </View>
+          <ScrollView style={styles.scrollView}>
+            {documents
+              .filter((document) => document.createdBy.id === user.uid)
+              .map((document) => {
+                return (
+                  <View style={styles.list} key={document.id}>
+                    <Text style={styles.paragraph}>
+                      {new Date(
+                        document.createdAt.seconds * 1000
+                      ).toLocaleDateString("en-US")}
+                    </Text>
+                    <Text style={styles.paragraph}>
+                      Session Load {document.sessionLoad} lbs
+                    </Text>
+                    <Text style={styles.paragraph}>
+                      You lifted {document.elephants}{" "}
+                      <MaterialCommunityIcons
+                        name="elephant"
+                        size={24}
+                        color="white"
+                      />{" "}
+                      Elephants
+                    </Text>
+                  </View>
+                );
+              })}
+          </ScrollView>
+          <View style={styles.row}>
+            <Text onPress={logout} style={styles.paragraph}>
+              {" "}
+              LOGOUT
+            </Text>
           </View>
         </View>
         <View style={styles.footer}>
           <View style={styles.row}>
-            <AntDesign onPress={() => navigation.navigate('Home')} name="home" size={36} color="#A2AAAD" /> 
+            <AntDesign
+              onPress={() => navigation.navigate("Home")}
+              name="home"
+              size={36}
+              color="#A2AAAD"
+            />
             <MaterialCommunityIcons name="dumbbell" size={36} color="#A2AAAD" />
-            <AntDesign onPress={() => navigation.navigate('Profile')} name="user" size={36} color="#A2AAAD" /> 
+            <AntDesign
+              onPress={() => navigation.navigate("Profile")}
+              name="user"
+              size={36}
+              color="#A2AAAD"
+            />
           </View>
         </View>
       </View>
@@ -96,6 +144,7 @@ export default function HomeScreen({ navigation }){
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
+      margin: 8
     },
     paragraph: {
       margin: 4,
@@ -114,5 +163,9 @@ export default function HomeScreen({ navigation }){
     scrollView: {
       marginHorizontal: 8,
     },
+    list: {
+      marginBottom: 8,
+      marginTop: 8,
+    }
   });
   
