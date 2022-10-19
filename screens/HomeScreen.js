@@ -7,15 +7,19 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useLogout } from '../hooks/useLogout'
+import { useFirestore } from '../hooks/useFirestore'
+import { useDocument } from '../hooks/useDocument'
+import { UserInterfaceIdiom } from 'expo-constants';
 
 
 
 export default function HomeScreen({ navigation }){
   const { user } = useAuthContext()
-  const { logout } = useLogout()
+  const userID  = user.uid
   const [today, setToday] = useState(null);
   const [date, setDate] = useState(null);
-
+  const { logout } = useLogout()
+  // Manipulate Date
   useEffect(() => {
     let day = new Date();
     let date = (day.getMonth()+1)+'-'+day.getDate()+'-'+day.getFullYear()
@@ -25,6 +29,7 @@ export default function HomeScreen({ navigation }){
   }, []);
 
 
+  // Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault()
     const createdBy = { 
@@ -42,23 +47,27 @@ export default function HomeScreen({ navigation }){
     }
 
     const {id} = await projectFirestore.collection("workouts").add(workout)
+    console.log(id)
     navigation.navigate('Session', {
-      workoutId: id,
+      id: id,
     });
   }
-
-
 
     return (
       <View style={styles.container}>
          <StatusBar style='light' />
         <View style={styles.content}>
-        <TouchableOpacity style={styles.roundButton} onPress={handleSubmit}>
-        <FontAwesome5 name="dumbbell" size={36} color="#8A8D8F" />
-      </TouchableOpacity>
-      <View style={styles.row}>
+          <View style={styles.row}>
+            <TouchableOpacity style={styles.roundButton} onPress={handleSubmit}>
+              <FontAwesome5 name="dumbbell" size={36} color="#8A8D8F" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.row}>
+              <Text style={styles.paragraph}>Start A Workout Session</Text>
+            </View>
+          <View style={styles.row}>
             <Text onPress={logout} style={styles.paragraph}> LOGOUT</Text>
-        </View>
+          </View>
         </View>
         <View style={styles.footer}>
           <View style={styles.row}>
@@ -94,7 +103,7 @@ export default function HomeScreen({ navigation }){
       fontSize: 18,
       fontWeight: 'bold',
       textAlign: 'center',
-      color: '#418FDE',
+      color: '#ffffff',
     },
     roundButton: {
       width: 100,
