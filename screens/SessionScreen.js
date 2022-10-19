@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -64,102 +64,143 @@ export default function SessionScreen({ route, navigation }){
 
     return (
       <View style={styles.container}>
-         <StatusBar style='light' />
+        <StatusBar style="light" />
         <View style={styles.content}>
-            <Text style={styles.title}>Your Workout</Text>
-            <Text style={styles.paragraph}>{new Date(document.createdAt.seconds * 1000).toLocaleDateString("en-US")}</Text>
-            <Text style={styles.paragraph}>Session Load: {document.sessionLoad}</Text>
-            
-            <View style={styles.row}> 
+          <Text style={styles.title}>Your Workout</Text>
+          <Text style={styles.paragraph}>
+            {new Date(document.createdAt.seconds * 1000).toLocaleDateString(
+              "en-US"
+            )}
+          </Text>
+          <Text style={styles.paragraph}>
+            Session Load: {document.sessionLoad}
+          </Text>
+
+          <View style={styles.row}>
             <Text style={styles.paragraph}>You have lifted: </Text>
-            <Text style={styles.paragraph}>{(document.elephants).toFixed(1)} </Text>
+            <Text style={styles.paragraph}>
+              {document.elephants.toFixed(1)}{" "}
+            </Text>
             <MaterialCommunityIcons name="elephant" size={24} color="white" />
             <Text style={styles.paragraph}>Elephants</Text>
-            </View>
-            {/* Lift Name */}
-            <InputField
-          inputStyle={{
-            fontSize: 12
-          }}
-          containerStyle={{
-            backgroundColor: '#fff',
-            marginBottom: 4
-          }}
-          placeholder='Lift Type'
-          autoCapitalize='none'
-          keyboardType='default'
-          textContentType='none'
-          autoFocus={true}
-          value={newLift}
-          onChangeText={text => setNewLift(text)}
-        />
-         {/* Lift Load */}
-         <InputField
-          inputStyle={{
-            fontSize: 12
-          }}
-          containerStyle={{
-            backgroundColor: '#fff',
-            marginBottom: 4
-          }}
-          placeholder='Lift Load'
-          autoCapitalize='none'
-          keyboardType='number-pad'
-          textContentType='none'
-          autoFocus={true}
-          value={newLoad}
-          onChangeText={text => setNewLoad(text)}
-        />
+          </View>
+          {/* Lift Name */}
+          <InputField
+            inputStyle={{
+              fontSize: 12,
+            }}
+            containerStyle={{
+              backgroundColor: "#fff",
+              marginBottom: 4,
+            }}
+            placeholder="Lift Type"
+            autoCapitalize="none"
+            keyboardType="default"
+            textContentType="none"
+            autoFocus={true}
+            value={newLift}
+            onChangeText={(text) => setNewLift(text)}
+          />
+          {/* Lift Load */}
+          <InputField
+            inputStyle={{
+              fontSize: 12,
+            }}
+            containerStyle={{
+              backgroundColor: "#fff",
+              marginBottom: 4,
+            }}
+            placeholder="Lift Load"
+            autoCapitalize="none"
+            keyboardType="number-pad"
+            textContentType="none"
+            autoFocus={true}
+            value={newLoad}
+            onChangeText={(text) => setNewLoad(text)}
+          />
+
           {/* Lift Sets */}
           <InputField
-          inputStyle={{
-            fontSize: 12
-          }}
-          containerStyle={{
-            backgroundColor: '#fff',
-            marginBottom: 4
-          }}
-          placeholder='Lift Sets'
-          autoCapitalize='none'
-          keyboardType='number-pad'
-          textContentType='none'
-          autoFocus={true}
-          value={newSets}
-          onChangeText={text => setNewSets(text)}
-        />
-        {/* Lift Reps */}
-        <InputField
-          inputStyle={{
-            fontSize: 12
-          }}
-          containerStyle={{
-            backgroundColor: '#fff',
-            marginBottom: 4
-          }}
-          placeholder='Lift Reps'
-          autoCapitalize='none'
-          keyboardType='number-pad'
-          textContentType='none'
-          autoFocus={true}
-          value={newReps}
-          onChangeText={text => setNewReps(text)}
-        />
-        <Button
-        onPress={handleSubmit}
-        backgroundColor='#c8102e'
-        title='ADD LIFT'
-        tileColor='#fff'
-        titleSize={16}
-        containerStyle={{
-          marginBottom: 12
-        }}
-      />
+            inputStyle={{
+              fontSize: 12,
+            }}
+            containerStyle={{
+              backgroundColor: "#fff",
+              marginBottom: 4,
+            }}
+            placeholder="Lift Sets"
+            autoCapitalize="none"
+            keyboardType="number-pad"
+            textContentType="none"
+            autoFocus={true}
+            value={newSets}
+            onChangeText={(text) => setNewSets(text)}
+          />
+          {/* Lift Reps */}
+          <InputField
+            inputStyle={{
+              fontSize: 12,
+            }}
+            containerStyle={{
+              backgroundColor: "#fff",
+              marginBottom: 4,
+            }}
+            placeholder="Lift Reps"
+            autoCapitalize="none"
+            keyboardType="number-pad"
+            textContentType="none"
+            autoFocus={true}
+            value={newReps}
+            onChangeText={(text) => setNewReps(text)}
+          />
+          <Button
+            onPress={handleSubmit}
+            backgroundColor="#c8102e"
+            title="ADD LIFT"
+            tileColor="#fff"
+            titleSize={16}
+            containerStyle={{
+              marginBottom: 12,
+            }}
+          />
+          <Button
+            onPress={() => navigation.navigate('Home')}
+            backgroundColor="#c8102e"
+            title="END SESSION"
+            tileColor="#fff"
+            titleSize={16}
+            containerStyle={{
+              marginBottom: 12,
+            }}
+          />
+          <ScrollView style={styles.scrollView}>
+            {document.lifts.map((lift) => {
+              return (
+                <View key={lift.id}>
+                  <Text style={styles.paragraph}>{lift.lift}</Text>
+                  <Text style={styles.paragraph}>
+                    {lift.sets} sets x {lift.reps} reps of {lift.load} lbs{" "}
+                  </Text>
+                </View>
+              );
+            })}
+          </ScrollView>
         </View>
         <View style={styles.footer}>
           <View style={styles.row}>
-            <AntDesign onPress={() => navigation.navigate('Home')} name="home" size={48} color="#A2AAAD" /> 
-            <MaterialCommunityIcons name="dumbbell" size={48} color="#A2AAAD" />
-            <AntDesign onPress={() => navigation.navigate('Profile')} name="user" size={48} color="#A2AAAD" /> 
+            <AntDesign
+              onPress={() => navigation.navigate("Home")}
+              name="home"
+              size={36}
+              color="#A2AAAD"
+            />
+            <MaterialCommunityIcons name="dumbbell" size={36} color="#A2AAAD" />
+            <AntDesign
+              onPress={() => navigation.navigate("Profile")}
+              name="user"
+              size={36}
+              color="#A2AAAD"
+            />
           </View>
         </View>
       </View>
@@ -173,11 +214,11 @@ export default function SessionScreen({ route, navigation }){
     },
     content: {
       flex: 1,
-      padding: 28,
+      padding: 16,
     },
     footer: {
       backgroundColor: "#0C2340",
-      padding: 40,
+      padding: 12,
     },
     row: {
       flexDirection: 'row',
@@ -193,10 +234,13 @@ export default function SessionScreen({ route, navigation }){
     },
     title: {
       margin: 4,
-      fontSize: 24,
+      fontSize: 20,
       fontWeight: 'bold',
       textAlign: 'center',
       color: '#ffffff',
+    },
+    scrollView: {
+      marginHorizontal: 8,
     },
   });
   

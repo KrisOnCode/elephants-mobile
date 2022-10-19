@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { projectFirestore, timestamp } from '../firebase/config'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -10,12 +10,13 @@ import { useLogout } from '../hooks/useLogout'
 import { useFirestore } from '../hooks/useFirestore'
 import { useDocument } from '../hooks/useDocument'
 import { UserInterfaceIdiom } from 'expo-constants';
+import { useCollection } from '../hooks/useCollection'
 
 
 
 export default function HomeScreen({ navigation }){
   const { user } = useAuthContext()
-  const userID  = user.uid
+  const { documents, error } = useCollection('workouts')
   const [today, setToday] = useState(null);
   const [date, setDate] = useState(null);
   const { logout } = useLogout()
@@ -57,23 +58,21 @@ export default function HomeScreen({ navigation }){
       <View style={styles.container}>
          <StatusBar style='light' />
         <View style={styles.content}>
-          <View style={styles.row}>
-            <TouchableOpacity style={styles.roundButton} onPress={handleSubmit}>
-              <FontAwesome5 name="dumbbell" size={36} color="#8A8D8F" />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.row}>
-              <Text style={styles.paragraph}>Start A Workout Session</Text>
+        <View style={styles.row}>
+              <Text style={styles.paragraph}>START A WORKOUT</Text>
             </View>
+          <View style={styles.row}>
+            <MaterialCommunityIcons onPress={handleSubmit} name="plus-circle" size={72} color="white" />
+          </View>
           <View style={styles.row}>
             <Text onPress={logout} style={styles.paragraph}> LOGOUT</Text>
           </View>
         </View>
         <View style={styles.footer}>
           <View style={styles.row}>
-            <AntDesign onPress={() => navigation.navigate('Home')} name="home" size={48} color="#A2AAAD" /> 
-            <MaterialCommunityIcons name="dumbbell" size={48} color="#A2AAAD" />
-            <AntDesign onPress={() => navigation.navigate('Profile')} name="user" size={48} color="#A2AAAD" /> 
+            <AntDesign onPress={() => navigation.navigate('Home')} name="home" size={36} color="#A2AAAD" /> 
+            <MaterialCommunityIcons name="dumbbell" size={36} color="#A2AAAD" />
+            <AntDesign onPress={() => navigation.navigate('Profile')} name="user" size={36} color="#A2AAAD" /> 
           </View>
         </View>
       </View>
@@ -87,11 +86,11 @@ export default function HomeScreen({ navigation }){
     },
     content: {
       flex: 1,
-      padding: 60,
+      padding: 36,
     },
     footer: {
       backgroundColor: "#0C2340",
-      padding: 40,
+      padding: 12,
     },
     row: {
       flexDirection: 'row',
@@ -99,25 +98,21 @@ export default function HomeScreen({ navigation }){
       alignItems: 'center',
     },
     paragraph: {
-      margin: 24,
-      fontSize: 18,
+      margin: 4,
+      fontSize: 16,
       fontWeight: 'bold',
       textAlign: 'center',
       color: '#ffffff',
     },
-    roundButton: {
-      width: 100,
-      height: 100,
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: 10,
-      borderRadius: 100,
-      backgroundColor: '#C8102E',
+    title: {
+      margin: 4,
+      fontSize: 20,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: '#ffffff',
     },
-    date: {
-    fontSize: 18,
-    fontWeight: '800',
-    color: '#418FDE',
-    }
+    scrollView: {
+      marginHorizontal: 8,
+    },
   });
   
