@@ -66,15 +66,24 @@ export default function SessionScreen({ route, navigation }){
       <View style={styles.container}>
          <StatusBar style='light' />
         <View style={styles.content}>
-            <Text style={styles.paragraph}>Current Workout Session</Text>
+            <Text style={styles.title}>Your Workout</Text>
+            <Text style={styles.paragraph}>{new Date(document.createdAt.seconds * 1000).toLocaleDateString("en-US")}</Text>
+            <Text style={styles.paragraph}>Session Load: {document.sessionLoad}</Text>
+            
+            <View style={styles.row}> 
+            <Text style={styles.paragraph}>You have lifted: </Text>
+            <Text style={styles.paragraph}>{(document.elephants).toFixed(1)} </Text>
+            <MaterialCommunityIcons name="elephant" size={24} color="white" />
+            <Text style={styles.paragraph}>Elephants</Text>
+            </View>
             {/* Lift Name */}
             <InputField
           inputStyle={{
-            fontSize: 14
+            fontSize: 12
           }}
           containerStyle={{
             backgroundColor: '#fff',
-            marginBottom: 20
+            marginBottom: 4
           }}
           placeholder='Lift Type'
           autoCapitalize='none'
@@ -87,11 +96,11 @@ export default function SessionScreen({ route, navigation }){
          {/* Lift Load */}
          <InputField
           inputStyle={{
-            fontSize: 14
+            fontSize: 12
           }}
           containerStyle={{
             backgroundColor: '#fff',
-            marginBottom: 20
+            marginBottom: 4
           }}
           placeholder='Lift Load'
           autoCapitalize='none'
@@ -104,11 +113,11 @@ export default function SessionScreen({ route, navigation }){
           {/* Lift Sets */}
           <InputField
           inputStyle={{
-            fontSize: 14
+            fontSize: 12
           }}
           containerStyle={{
             backgroundColor: '#fff',
-            marginBottom: 20
+            marginBottom: 4
           }}
           placeholder='Lift Sets'
           autoCapitalize='none'
@@ -121,11 +130,11 @@ export default function SessionScreen({ route, navigation }){
         {/* Lift Reps */}
         <InputField
           inputStyle={{
-            fontSize: 14
+            fontSize: 12
           }}
           containerStyle={{
             backgroundColor: '#fff',
-            marginBottom: 20
+            marginBottom: 4
           }}
           placeholder='Lift Reps'
           autoCapitalize='none'
@@ -140,9 +149,9 @@ export default function SessionScreen({ route, navigation }){
         backgroundColor='#c8102e'
         title='ADD LIFT'
         tileColor='#fff'
-        titleSize={20}
+        titleSize={16}
         containerStyle={{
-          marginBottom: 24
+          marginBottom: 12
         }}
       />
         </View>
@@ -164,7 +173,7 @@ export default function SessionScreen({ route, navigation }){
     },
     content: {
       flex: 1,
-      padding: 60,
+      padding: 28,
     },
     footer: {
       backgroundColor: "#0C2340",
@@ -176,12 +185,18 @@ export default function SessionScreen({ route, navigation }){
       alignItems: 'center',
     },
     paragraph: {
-      margin: 24,
-      fontSize: 18,
+      margin: 4,
+      fontSize: 16,
       fontWeight: 'bold',
       textAlign: 'center',
       color: '#ffffff',
     },
-
+    title: {
+      margin: 4,
+      fontSize: 24,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: '#ffffff',
+    },
   });
   
