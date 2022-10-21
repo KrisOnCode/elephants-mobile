@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { projectAuth, projectStorage, projectFirestore } from '../firebase/config'
+import { projectAuth, projectStorage, projectFirestore, timestamp } from '../firebase/config'
 import { useAuthContext } from './useAuthContext'
 
 export const useSignup = () => {
@@ -21,7 +21,7 @@ export const useSignup = () => {
       }
 
       // upload user thumbnail
-      const imgUrl = "https://firebasestorage.googleapis.com/v0/b/lifting-elephants-c9750.appspot.com/o/defaults%2Fdefault-user-avatar.png?alt=media&token=64c0d3a9-95c6-49c4-86e5-20dafb36a79d"
+      const imgUrl = "https://firebasestorage.googleapis.com/v0/b/user-management-b8a9d.appspot.com/o/defaults%2Felephant.png?alt=media&token=c278c9ca-38e9-46ee-a0cd-8335569ba81d"
       
      
       
@@ -34,11 +34,12 @@ export const useSignup = () => {
         online: true,
         username: username,
         photoURL: imgUrl,
-        firstname: '',
-        lastname: '',
-        city: '',
-        st: '',
-        bio: '',
+        firstname: 'Ella',
+        lastname: 'Phant',
+        city: 'Anytown',
+        st: 'St',
+        bio: 'Update your bio',
+        joined: timestamp.fromDate(new Date()),
         workouts: [],
       })
 

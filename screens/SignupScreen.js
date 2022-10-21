@@ -122,12 +122,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#54585a',
+    color: '#ffffff',
     alignSelf: 'center',
     paddingBottom: 24
   }, 
   logo: {
     alignSelf: 'center',
-    paddingTop: 24
+    paddingTop: 24,
+    marginBottom: 12
   }
 });

@@ -82,7 +82,18 @@ export default function LoginScreen({ navigation }){
       <Button
         onPress={() => navigation.navigate('Forgot')}
         backgroundColor='#c8102e'
-        title='RESET PASSWORD'
+        title='GO TO RESET PASSWORD'
+        tileColor='#fff'
+        titleSize={20}
+        containerStyle={{
+          marginBottom: 24
+        }}
+      />
+      <Text style={styles.title}>Need to create an account?</Text>
+      <Button
+        onPress={() => navigation.navigate('Signup')}
+        backgroundColor='#c8102e'
+        title='GO TO SIGN UP'
         tileColor='#fff'
         titleSize={20}
         containerStyle={{
@@ -103,12 +114,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#54585a',
+    color: '#ffffff',
     alignSelf: 'center',
     paddingBottom: 24
   }, 
   logo: {
     alignSelf: 'center',
     marginTop: 12,
+    marginBottom: 12
   }
 });

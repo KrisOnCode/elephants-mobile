@@ -5,11 +5,7 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
 import { useLogout } from '../hooks/useLogout'
-import { useFirestore } from '../hooks/useFirestore'
-import { useDocument } from '../hooks/useDocument'
-import { UserInterfaceIdiom } from 'expo-constants';
 import { useCollection } from '../hooks/useCollection'
 
 
@@ -58,8 +54,8 @@ export default function HomeScreen({ navigation }){
       <View style={styles.container}>
         <StatusBar style="light" />
         <View style={styles.content}>
-          <View style={styles.row}>
-            <Text style={styles.paragraph}>START A WORKOUT</Text>
+        <View style={styles.headerRow}>
+            <Text style={styles.header}>Your Workouts</Text>
           </View>
           <View style={styles.row}>
             <MaterialCommunityIcons
@@ -73,7 +69,8 @@ export default function HomeScreen({ navigation }){
             <Text style={styles.paragraph}>PAST WORKOUTS</Text>
           </View>
           <ScrollView style={styles.scrollView}>
-            {documents
+          
+            {documents && documents
               .filter((document) => document.createdBy.id === user.uid)
               .map((document) => {
                 return (
@@ -99,12 +96,6 @@ export default function HomeScreen({ navigation }){
                 );
               })}
           </ScrollView>
-          <View style={styles.row}>
-            <Text onPress={logout} style={styles.paragraph}>
-              {" "}
-              LOGOUT
-            </Text>
-          </View>
         </View>
         <View style={styles.footer}>
           <View style={styles.row}>
@@ -114,7 +105,7 @@ export default function HomeScreen({ navigation }){
               size={36}
               color="#A2AAAD"
             />
-            <MaterialCommunityIcons name="dumbbell" size={36} color="#A2AAAD" />
+          
             <AntDesign
               onPress={() => navigation.navigate("Profile")}
               name="user"
@@ -166,6 +157,22 @@ export default function HomeScreen({ navigation }){
     list: {
       marginBottom: 8,
       marginTop: 8,
-    }
+    },
+    headerRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      margin: 8,
+      borderBottomWidth: .5,
+      borderBottomColor: '#ffffff',
+      padding: 4
+    },
+    header: {
+      margin: 4,
+      fontSize: 20,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: '#ffffff',
+    },
   });
   

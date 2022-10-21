@@ -17,8 +17,6 @@ export default function SessionScreen({ route, navigation }){
   const [newLoad, setNewLoad] = useState('')
   const [newSets, setNewSets] = useState('')
   const [newReps, setNewReps] = useState('')
-
-  console.log(id)
   
   if (error) {
     return <Text>{error}</Text>
@@ -66,7 +64,9 @@ export default function SessionScreen({ route, navigation }){
       <View style={styles.container}>
         <StatusBar style="light" />
         <View style={styles.content}>
-          <Text style={styles.title}>Your Workout</Text>
+        <View style={styles.headerRow}>
+            <Text style={styles.header}>Today's Session</Text>
+          </View>
           <Text style={styles.paragraph}>
             {new Date(document.createdAt.seconds * 1000).toLocaleDateString(
               "en-US"
@@ -214,7 +214,7 @@ export default function SessionScreen({ route, navigation }){
     },
     content: {
       flex: 1,
-      padding: 16,
+      padding: 36,
     },
     footer: {
       backgroundColor: "#0C2340",
@@ -224,6 +224,7 @@ export default function SessionScreen({ route, navigation }){
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
+      margin: 8
     },
     paragraph: {
       margin: 4,
@@ -241,6 +242,26 @@ export default function SessionScreen({ route, navigation }){
     },
     scrollView: {
       marginHorizontal: 8,
+    },
+    list: {
+      marginBottom: 8,
+      marginTop: 8,
+    },
+    headerRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      margin: 8,
+      borderBottomWidth: .5,
+      borderBottomColor: '#ffffff',
+      padding: 4
+    },
+    header: {
+      margin: 4,
+      fontSize: 20,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: '#ffffff',
     },
   });
   

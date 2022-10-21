@@ -71,12 +71,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#54585a',
+    color: '#ffffff',
     alignSelf: 'center',
     paddingBottom: 24
   }, 
   logo: {
     alignSelf: 'center',
     marginTop: 12,
+    marginBottom: 12
   }
 });
