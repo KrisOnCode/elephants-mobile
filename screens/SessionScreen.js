@@ -6,13 +6,19 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Button, InputField } from '../components';
 import { timestamp } from '../firebase/config';
 import { useFirestore } from '../hooks/useFirestore';
+import { useLoad } from '../hooks/useLoad';
 import { useDocument } from '../hooks/useDocument'
+import { useUserDocument } from '../hooks/useUserDocument'
+import { useAuthContext } from '../hooks/useAuthContext'
 
 
 export default function SessionScreen({ route, navigation }){
   const { id } = route.params;
+  const { user } = useAuthContext()
   const { document, error } = useDocument('workouts', id)
+  const { userDocument, userDocError } = useUserDocument('users', user.uid)
   const { updateDocument, response } = useFirestore('workouts')
+  const { updateLoad } = useLoad('users')
   const [newLift, setNewLift] = useState('')
   const [newLoad, setNewLoad] = useState('')
   const [newSets, setNewSets] = useState('')
@@ -22,6 +28,13 @@ export default function SessionScreen({ route, navigation }){
     return <Text>{error}</Text>
   }
   if (!document) {
+    return <Text>Loading...</Text>
+  }
+
+  if (userDocError) {
+    return <Text>{userDocError}</Text>
+  }
+  if (!userDocument) {
     return <Text>Loading...</Text>
   }
   
@@ -56,9 +69,21 @@ export default function SessionScreen({ route, navigation }){
       setNewLoad('')
       setNewReps('')
       setNewSets('')
-    }
-
+    } 
   }
+
+  const handleEndSession = async (e) => {
+    e.preventDefault()
+    const loadToAdd = {
+      dayLoad: elephantLoad,
+      createdAt: timestamp.fromDate(new Date()),
+      id: Math.random()
+    }
+    await updateLoad(user.uid, {
+      workouts: [...userDocument.workouts, loadToAdd],
+    })
+    navigation.navigate("Home")
+}
 
     return (
       <View style={styles.container}>
@@ -164,7 +189,7 @@ export default function SessionScreen({ route, navigation }){
             }}
           />
           <Button
-            onPress={() => navigation.navigate('Home')}
+            onPress={handleEndSession}
             backgroundColor="#c8102e"
             title="END SESSION"
             tileColor="#fff"

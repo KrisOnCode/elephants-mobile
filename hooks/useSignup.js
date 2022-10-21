@@ -40,7 +40,7 @@ export const useSignup = () => {
         st: 'St',
         bio: 'Update your bio',
         joined: timestamp.fromDate(new Date()),
-        workouts: [],
+        workouts: [ ],
       })
 
       // dispatch login action
