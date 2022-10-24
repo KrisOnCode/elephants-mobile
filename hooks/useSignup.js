@@ -40,9 +40,13 @@ export const useSignup = () => {
         st: 'St',
         bio: 'Update your bio',
         joined: timestamp.fromDate(new Date()),
-        workouts: [ ],
       })
 
+      await projectFirestore.collection('loads').doc(res.user.uid).set({ 
+        username: username,
+      })
+
+      
       // dispatch login action
       dispatch({ type: 'LOGIN', payload: res.user })
 

@@ -9,6 +9,7 @@ import UploadAvatarScreen from '../screens/UploadAvatarScreen';
 import EditAccountSettingsScreen from '../screens/EditAccountSettings';
 import DeleteAccountScreen from '../screens/DeleteAccountScreen'
 import DeleteConfirmScreen from '../screens/DeleteConfirmScreen'
+import StatsScreen from '../screens/StatsScreen'
 
 
 const Stack = createStackNavigator();
@@ -24,6 +25,7 @@ export default function HomeStack() {
       <Stack.Screen name='AccountSettings' component={EditAccountSettingsScreen} />
       <Stack.Screen name='DeleteAccount' component={DeleteAccountScreen} />
       <Stack.Screen name='DeleteConfirm' component={DeleteConfirmScreen} />
+      <Stack.Screen name='Stats' component={StatsScreen} />
 
     </Stack.Navigator>
   );

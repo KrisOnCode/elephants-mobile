@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
@@ -6,10 +6,11 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Button, InputField } from '../components';
 import { timestamp } from '../firebase/config';
 import { useFirestore } from '../hooks/useFirestore';
-import { useLoad } from '../hooks/useLoad';
+import { projectFirestore } from '../firebase/config'
 import { useDocument } from '../hooks/useDocument'
 import { useUserDocument } from '../hooks/useUserDocument'
 import { useAuthContext } from '../hooks/useAuthContext'
+import moment from 'moment'
 
 
 export default function SessionScreen({ route, navigation }){
@@ -18,12 +19,14 @@ export default function SessionScreen({ route, navigation }){
   const { document, error } = useDocument('workouts', id)
   const { userDocument, userDocError } = useUserDocument('users', user.uid)
   const { updateDocument, response } = useFirestore('workouts')
-  const { updateLoad } = useLoad('users')
   const [newLift, setNewLift] = useState('')
   const [newLoad, setNewLoad] = useState('')
   const [newSets, setNewSets] = useState('')
   const [newReps, setNewReps] = useState('')
-  
+  const today = moment().format('MMMDDYYYY')
+
+  console.log(today)
+
   if (error) {
     return <Text>{error}</Text>
   }
@@ -74,13 +77,13 @@ export default function SessionScreen({ route, navigation }){
 
   const handleEndSession = async (e) => {
     e.preventDefault()
-    const loadToAdd = {
-      dayLoad: elephantLoad,
-      createdAt: timestamp.fromDate(new Date()),
-      id: Math.random()
-    }
-    await updateLoad(user.uid, {
-      workouts: [...userDocument.workouts, loadToAdd],
+    let key = today
+    await projectFirestore.collection('loads').doc(user.uid).update({ 
+      [key]: currentSessionLoad
+    })
+
+    await projectFirestore.collection('users').doc(user.uid).update({ 
+      lifetimeLoad: userDocument.lifetimeLoad + elephantLoad
     })
     navigation.navigate("Home")
 }

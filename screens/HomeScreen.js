@@ -7,7 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLogout } from '../hooks/useLogout'
 import { useCollection } from '../hooks/useCollection'
-
+import Stats from '../components/Stats'
 
 
 export default function HomeScreen({ navigation }){
@@ -54,6 +54,7 @@ export default function HomeScreen({ navigation }){
       <View style={styles.container}>
         <StatusBar style="light" />
         <View style={styles.content}>
+        <Stats />
         <View style={styles.headerRow}>
             <Text style={styles.header}>Your Workouts</Text>
           </View>
@@ -97,6 +98,7 @@ export default function HomeScreen({ navigation }){
               })}
           </ScrollView>
         </View>
+       
         <View style={styles.footer}>
           <View style={styles.row}>
             <AntDesign

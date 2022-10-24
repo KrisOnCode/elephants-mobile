@@ -5,7 +5,6 @@ import { useLogout } from '../hooks/useLogout'
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, InputField } from '../components';
 import { StatusBar } from 'expo-status-bar';
-import { AntDesign } from '@expo/vector-icons';
 import * as firebase from 'firebase';
 
 export default function DeleteAccountScreen({ navigation }){
@@ -87,22 +86,6 @@ export default function DeleteAccountScreen({ navigation }){
           marginBottom: 24
         }}
       />
-        </View>
-        <View style={styles.footer}>
-          <View style={styles.row}>
-            <AntDesign
-              onPress={() => navigation.navigate("Home")}
-              name="home"
-              size={36}
-              color="#A2AAAD"
-            />
-            <AntDesign
-              onPress={() => navigation.navigate("Profile")}
-              name="user"
-              size={36}
-              color="#A2AAAD"
-            />
-          </View>
         </View>
       </View>
     );
