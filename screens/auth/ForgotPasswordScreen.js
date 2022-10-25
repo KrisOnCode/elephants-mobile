@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import { useTheme } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Image, Text, View} from 'react-native';
-import { Button, InputField } from '../components';
-import logo from '../assets/logo.png'
-import { projectAuth } from '../firebase/config'
+import { StyleSheet, Image, View } from 'react-native';
+import { Text, Button } from 'react-native-paper';
+import { InputField } from '../../components';
+import logo from '../../assets/logo.png'
+import { projectAuth } from '../../firebase/config'
 
 export default function ForgotPasswordScreen({ navigation }){
-    const [email, setEmail] = useState('');
+   const theme = useTheme();
+   const [email, setEmail] = useState('');
 
       const handleSubmit = (e) => {
         e.preventDefault()
@@ -15,10 +18,11 @@ export default function ForgotPasswordScreen({ navigation }){
       }
 
     return (
-        <View style={styles.container}>
+      <View style={{ backgroundColor: theme.colors.background, flex: 1, paddingTop: 50, paddingHorizontal: 48 }}>
         <StatusBar style='light' />
         <Image style={styles.logo} source={logo} /> 
-        <Text style={styles.title}>RESET YOUR PASSWORD</Text>
+        <Text style={{color: theme.colors.textColor, alignSelf: 'center',
+    paddingBottom: 12, paddingTop: 12}} variant="headlineMedium">Reset Your Password</Text>
         <InputField
           inputStyle={{
             fontSize: 14
@@ -38,43 +42,21 @@ export default function ForgotPasswordScreen({ navigation }){
         />
         <Button
         onPress={handleSubmit}
-        backgroundColor='#c8102e'
-        title='SEND PASSWORD RESET EMAIL'
-        tileColor='#fff'
-        titleSize={20}
-        containerStyle={{
-          marginBottom: 24
-        }}
-      />
-      <Text style={styles.title}>Remeber your password?</Text>
+        mode="elevated"
+        buttonColor={theme.colors.secondary}
+        textColor="#ffffff">SEND PASSWORD RESET EMAIL</Button>
+      <Text style={{color: theme.colors.textColor, alignSelf: 'center',
+    paddingBottom: 12, paddingTop: 12}} variant="headlineSmall">Remember password?</Text>
       <Button
         onPress={() => navigation.navigate('Login')}
-        backgroundColor='#c8102e'
-        title='GO TO LOGIN'
-        tileColor='#fff'
-        titleSize={20}
-        containerStyle={{
-          marginBottom: 24
-        }}
-      />
+        mode="elevated"
+        buttonColor={theme.colors.secondary}
+        textColor="#ffffff">GO TO LOGIN</Button>
       </View>
     )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0C2340',
-    paddingTop: 50,
-    paddingHorizontal: 12
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '800',
-    color: '#ffffff',
-    alignSelf: 'center',
-    paddingBottom: 24
-  }, 
   logo: {
     alignSelf: 'center',
     marginTop: 12,

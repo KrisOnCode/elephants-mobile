@@ -1,30 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useTheme } from 'react-native-paper';
 import { useAuthContext } from '../hooks/useAuthContext'
 import { projectFirestore, timestamp } from '../firebase/config'
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import { Text, Surface } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useLogout } from '../hooks/useLogout'
 import { useCollection } from '../hooks/useCollection'
-import Stats from '../components/Stats'
 
 
 export default function HomeScreen({ navigation }){
   const { user } = useAuthContext()
+  const theme = useTheme();
   const { documents, error } = useCollection('workouts')
-  const [today, setToday] = useState(null);
-  const [date, setDate] = useState(null);
-  const { logout } = useLogout()
-  // Manipulate Date
-  useEffect(() => {
-    let day = new Date();
-    let date = (day.getMonth()+1)+'-'+day.getDate()+'-'+day.getFullYear()
-    let today = (day.getMonth()+1)+'/'+day.getDate()
-    setDate(date);
-    setToday(today)
-  }, []);
-
 
   // Handle Submit
   const handleSubmit = async (e) => {
@@ -51,51 +39,68 @@ export default function HomeScreen({ navigation }){
   }
 
     return (
-      <View style={styles.container}>
+      <View
+        style={{
+          backgroundColor: theme.colors.background,
+          flex: 1,
+          paddingTop: 4,
+          paddingHorizontal: 16,
+        }}
+      >
         <StatusBar style="light" />
         <View style={styles.content}>
-        <Stats />
         <View style={styles.headerRow}>
-            <Text style={styles.header}>Your Workouts</Text>
+        <Text
+              style={{
+                color: theme.colors.textColor,
+                alignSelf: "center",
+                paddingBottom: 2,
+                paddingTop: 2,
+              }}
+              variant="titleMedium"
+            >Your Workouts</Text>
           </View>
+          <Text
+              style={{
+                color: theme.colors.textColor,
+                alignSelf: "center",
+                paddingBottom: 12,
+                paddingTop: 12,
+              }}
+              variant="titleSmall"
+            >Create A New Workout</Text>
           <View style={styles.row}>
             <MaterialCommunityIcons
               onPress={handleSubmit}
               name="plus-circle"
-              size={72}
+              size={48}
               color="white"
             />
           </View>
-          <View style={styles.row}>
-            <Text style={styles.paragraph}>PAST WORKOUTS</Text>
-          </View>
           <ScrollView style={styles.scrollView}>
-          
+            <View style={styles.listContainer}>
             {documents && documents
               .filter((document) => document.createdBy.id === user.uid)
               .map((document) => {
                 return (
-                  <View style={styles.list} key={document.id}>
-                    <Text style={styles.paragraph}>
-                      {new Date(
+                  <View key={document.id} style={styles.list}>
+                   <Surface style={styles.surface} elevation={4}>
+                   <Text style={styles.listItem}>Session Date:</Text>
+                      <Text style={styles.listItem}>{new Date(
                         document.createdAt.seconds * 1000
-                      ).toLocaleDateString("en-US")}
-                    </Text>
-                    <Text style={styles.paragraph}>
-                      Session Load {document.sessionLoad} lbs
-                    </Text>
-                    <Text style={styles.paragraph}>
-                      You lifted {document.elephants}{" "}
-                      <MaterialCommunityIcons
+                      ).toLocaleDateString("en-US")}</Text>
+                      <Text style={styles.listItem}>Session Load:</Text>
+                      <Text style={styles.listItem}>{document.sessionLoad} lbs</Text>
+                      <Text style={styles.listItem}>{document.elephants}{" "}<MaterialCommunityIcons
                         name="elephant"
-                        size={24}
+                        size={16}
                         color="white"
-                      />{" "}
-                      Elephants
-                    </Text>
+                      />{" "}lifted</Text>
+                  </Surface>
                   </View>
                 );
               })}
+              </View>
           </ScrollView>
         </View>
        
@@ -104,14 +109,14 @@ export default function HomeScreen({ navigation }){
             <AntDesign
               onPress={() => navigation.navigate("Home")}
               name="home"
-              size={36}
+              size={24}
               color="#A2AAAD"
             />
           
             <AntDesign
               onPress={() => navigation.navigate("Profile")}
               name="user"
-              size={36}
+              size={24}
               color="#A2AAAD"
             />
           </View>
@@ -121,60 +126,53 @@ export default function HomeScreen({ navigation }){
   }
   
   const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#0C2340',
-    },
     content: {
       flex: 1,
-      padding: 36,
+      padding: 16,
     },
     footer: {
       backgroundColor: "#0C2340",
-      padding: 12,
+      padding: 4,
     },
     row: {
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
-      margin: 8
-    },
-    paragraph: {
-      margin: 4,
-      fontSize: 16,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: '#ffffff',
-    },
-    title: {
-      margin: 4,
-      fontSize: 20,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: '#ffffff',
+      margin: 4
     },
     scrollView: {
-      marginHorizontal: 8,
+      marginHorizontal: 2,
     },
     list: {
       marginBottom: 8,
       marginTop: 8,
     },
+    listContainer: {
+      alignItems: 'center'
+    },
     headerRow: {
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
-      margin: 8,
+      margin: 4,
       borderBottomWidth: .5,
       borderBottomColor: '#ffffff',
-      padding: 4
+      padding: 2
     },
-    header: {
-      margin: 4,
-      fontSize: 20,
-      fontWeight: 'bold',
-      textAlign: 'center',
+    listItem: {
       color: '#ffffff',
+      fontSize: 12,
+      fontWeight: 'bold',
+      margin: 1,
+    },
+    surface: {
+      padding: 8,
+      height: 120,
+      width: 120,
+      borderRadius: 120/2,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#418FDE',
     },
   });
   

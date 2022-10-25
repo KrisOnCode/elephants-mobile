@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { useLogin } from '../hooks/useLogin'
+import { useLogin } from '../../hooks/useLogin'
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Image, Text, View } from 'react-native';
-import { Button, InputField } from '../components';
-import logo from '../assets/logo.png'
+import { useTheme } from 'react-native-paper';
+import { StyleSheet, Image, View } from 'react-native';
+import { Text, Button } from 'react-native-paper';
+import { InputField } from '../../components';
+import logo from '../../assets/logo.png'
 
 export default function LoginScreen({ navigation }){
+    const theme = useTheme();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordVisibility, setPasswordVisibility] = useState(true);
@@ -28,10 +31,11 @@ export default function LoginScreen({ navigation }){
       }
 
     return (
-        <View style={styles.container}>
+      <View style={{ backgroundColor: theme.colors.background, flex: 1, paddingTop: 50, paddingHorizontal: 48 }}>
         <StatusBar style='light' />
         <Image style={styles.logo} source={logo} /> 
-        <Text style={styles.title}>SIGN IN</Text>
+        <Text style={{color: theme.colors.textColor, alignSelf: 'center',
+    paddingBottom: 12, paddingTop: 12}} variant="headlineMedium">Sign In</Text>
         <InputField
           inputStyle={{
             fontSize: 14
@@ -70,54 +74,28 @@ export default function LoginScreen({ navigation }){
         />
         <Button
         onPress={handleSubmit}
-        backgroundColor='#c8102e'
-        title='SIGN IN'
-        tileColor='#fff'
-        titleSize={20}
-        containerStyle={{
-          marginBottom: 24
-        }}
-      />
-      <Text style={styles.title}>Forgot your password?</Text>
+        mode="elevated"
+        buttonColor={theme.colors.secondary}
+        textColor="#ffffff">SIGN IN</Button>
+      <Text style={{color: theme.colors.textColor, alignSelf: 'center',
+    paddingBottom: 12, paddingTop: 12}} variant="headlineSmall">Forgot your password?</Text>
       <Button
         onPress={() => navigation.navigate('Forgot')}
-        backgroundColor='#c8102e'
-        title='GO TO RESET PASSWORD'
-        tileColor='#fff'
-        titleSize={20}
-        containerStyle={{
-          marginBottom: 24
-        }}
-      />
-      <Text style={styles.title}>Need to create an account?</Text>
+        mode="elevated"
+        buttonColor={theme.colors.secondary}
+        textColor="#ffffff">GO TO FORGOT PASSWORD</Button>
+      <Text style={{color: theme.colors.textColor, alignSelf: 'center',
+    paddingBottom: 12, paddingTop: 12}} variant="headlineSmall">Need an account?</Text>
       <Button
         onPress={() => navigation.navigate('Signup')}
-        backgroundColor='#c8102e'
-        title='GO TO SIGN UP'
-        tileColor='#fff'
-        titleSize={20}
-        containerStyle={{
-          marginBottom: 24
-        }}
-      />
+        mode="elevated"
+        buttonColor={theme.colors.secondary}
+        textColor="#ffffff">GO TO SIGN UP</Button>
       </View>
     )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0C2340',
-    paddingTop: 50,
-    paddingHorizontal: 12
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '800',
-    color: '#ffffff',
-    alignSelf: 'center',
-    paddingBottom: 24
-  }, 
   logo: {
     alignSelf: 'center',
     marginTop: 12,

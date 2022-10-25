@@ -3,12 +3,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeScreen from '../screens/HomeScreen';
 import SessionScreen from '../screens/SessionScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import EditProfileScreen from '../screens/EditProfileScreen';
-import UploadAvatarScreen from '../screens/UploadAvatarScreen';
-import EditAccountSettingsScreen from '../screens/EditAccountSettings';
-import DeleteAccountScreen from '../screens/DeleteAccountScreen'
-import DeleteConfirmScreen from '../screens/DeleteConfirmScreen'
+import ProfileScreen from '../screens/profile/ProfileScreen';
+import EditProfileScreen from '../screens/profile/EditProfileScreen';
+import UploadAvatarScreen from '../screens/profile/UploadAvatarScreen';
+import EditAccountSettingsScreen from '../screens/account/EditAccountSettings';
+import DeleteAccountScreen from '../screens/account/DeleteAccountScreen'
+import DeleteConfirmScreen from '../screens/account/DeleteConfirmScreen'
 import StatsScreen from '../screens/StatsScreen'
 
 

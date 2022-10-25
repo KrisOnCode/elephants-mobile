@@ -1,15 +1,27 @@
 import { useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image } from 'react-native'
-import { Button } from '../components';
+import { useTheme } from 'react-native-paper';
+import { View, StyleSheet, Alert } from 'react-native'
+import { Text, Button, Avatar } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
-import { projectFirestore, projectStorage } from '../firebase/config'
-import { useAuthContext } from '../hooks/useAuthContext'
+import { projectFirestore, projectStorage } from '../../firebase/config'
+import { useAuthContext } from '../../hooks/useAuthContext'
+import { useDocument } from '../../hooks/useDocument'
 
 export default function UploadAvatarScreen({ navigation }){
     const { user } = useAuthContext()
+    const theme = useTheme();
     const [image, setImage] = useState(null);
     const [uploading, setUploading] = useState(false);
+    const { document, error } = useDocument('users', user.uid)
+
+        if (error) {
+        return <Text>{error}</Text>
+    }
+        if (!document) {
+        return <Text>Loading...</Text>
+     }
+
 
     const pickImage = async () => {
         
@@ -43,35 +55,43 @@ export default function UploadAvatarScreen({ navigation }){
       };
   
   return (
-    <View style={styles.container}>
+    <View
+        style={{
+          backgroundColor: theme.colors.background,
+          flex: 1,
+          paddingTop: 50,
+          paddingHorizontal: 24,
+        }}
+      >
        <View style={styles.content}>
           <View style={styles.headerRow}>
-            <Text style={styles.header}>UPDATE PROFILE IMAGE</Text>
+          <Text
+              style={{
+                color: theme.colors.textColor,
+                alignSelf: "center",
+                paddingBottom: 12,
+                paddingTop: 12,
+              }}
+              variant="titleMedium"
+            >UPDATE PROFILE IMAGE</Text>
           </View>
           <View style={styles.row}>
-            <Image style={styles.avatar} source={{ uri: user.photoURL }} />
+            <Avatar.Image size={96} source={{ uri: document.photoURL }} />
           </View>
           <Button
-              onPress={pickImage}
-              backgroundColor='#418FDE'
-              title='SELECT NEW IMAGE'
-              tileColor='#fff'
-              titleSize={20}
-              containerStyle={{
-              marginBottom: 8
-              }}/>
+       onPress={pickImage}
+        mode="elevated"
+        buttonColor={theme.colors.secondary}
+        textColor="#ffffff">SELECT NEW IMAGE</Button>
           <View style={styles.imageContainer}>
-              {image && <Image source={{ uri: image.uri }} style={{ width: 300, height: 300 }} />}
+              {image && <Avatar.Image size={96} source={{ uri: image.uri }} />}
           </View>
           <Button
               onPress={uploadImage}
-              backgroundColor='#418FDE'
-              title='UPLOAD NEW IMAGE'
-              tileColor='#fff'
-              titleSize={20}
-              containerStyle={{
-              marginBottom: 8
-              }}/>
+              mode="elevated"
+              buttonColor={theme.colors.secondary}
+              textColor="#ffffff"
+            >UPLOAD NEW IMAGE</Button>
             <View style={styles.row}>
               <Text style={styles.link} onPress={() => navigation.navigate("Profile")}>RETURN TO PROFILE</Text>
             </View>
@@ -82,10 +102,6 @@ export default function UploadAvatarScreen({ navigation }){
   }
   
   const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#0C2340',
-    },
     content: {
       flex: 1,
       padding: 36,
@@ -96,20 +112,6 @@ export default function UploadAvatarScreen({ navigation }){
       alignItems: 'center',
       margin: 8
     },
-    paragraph: {
-      margin: 4,
-      fontSize: 16,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: '#ffffff',
-    },
-    title: {
-      margin: 4,
-      fontSize: 20,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: '#ffffff',
-    },
     headerRow: {
       flexDirection: 'row',
       justifyContent: 'space-around',
@@ -119,12 +121,10 @@ export default function UploadAvatarScreen({ navigation }){
       borderBottomColor: '#ffffff',
       padding: 4
     },
-    header: {
-      margin: 4,
-      fontSize: 20,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: '#ffffff',
+    imageContainer: {
+      marginTop: 30,
+      marginBottom: 50,
+      alignItems: 'center'
     },
     link: {
       margin: 4,
@@ -132,15 +132,5 @@ export default function UploadAvatarScreen({ navigation }){
       fontWeight: 'bold',
       textAlign: 'center',
       color: '#418FDE',
-    },
-    avatar: {
-      height: 72,
-      width: 72,
-      borderRadius: 72/2
-    },
-    imageContainer: {
-      marginTop: 30,
-      marginBottom: 50,
-      alignItems: 'center'
     },
   });

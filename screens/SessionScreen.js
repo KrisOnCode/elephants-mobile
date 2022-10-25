@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, ScrollView} from 'react-native';
+import { useTheme } from 'react-native-paper';
+import { StyleSheet, View, ScrollView} from 'react-native';
+import { Text, Surface, Button } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Button, InputField } from '../components';
+import { InputField } from '../components';
 import { timestamp } from '../firebase/config';
 import { useFirestore } from '../hooks/useFirestore';
 import { projectFirestore } from '../firebase/config'
@@ -16,6 +18,7 @@ import moment from 'moment'
 export default function SessionScreen({ route, navigation }){
   const { id } = route.params;
   const { user } = useAuthContext()
+  const theme = useTheme();
   const { document, error } = useDocument('workouts', id)
   const { userDocument, userDocError } = useUserDocument('users', user.uid)
   const { updateDocument, response } = useFirestore('workouts')
@@ -89,28 +92,69 @@ export default function SessionScreen({ route, navigation }){
 }
 
     return (
-      <View style={styles.container}>
+      <View
+        style={{
+          backgroundColor: theme.colors.background,
+          flex: 1,
+          paddingTop: 4,
+          paddingHorizontal: 16,
+        }}
+      >
         <StatusBar style="light" />
         <View style={styles.content}>
         <View style={styles.headerRow}>
-            <Text style={styles.header}>Today's Session</Text>
+        <Text
+              style={{
+                color: theme.colors.textColor,
+                alignSelf: "center",
+                paddingBottom: 2,
+                paddingTop: 2,
+              }}
+              variant="titleMedium"
+            >Today's Session</Text>
           </View>
-          <Text style={styles.paragraph}>
+          <Text
+              style={{
+                color: theme.colors.textColor,
+                alignSelf: "center",
+                paddingBottom: 1,
+                paddingTop: 1,
+              }}
+              variant="titleMedium"
+            >
             {new Date(document.createdAt.seconds * 1000).toLocaleDateString(
               "en-US"
             )}
           </Text>
-          <Text style={styles.paragraph}>
+          <Text
+              style={{
+                color: theme.colors.textColor,
+                alignSelf: "center",
+                paddingBottom: 1,
+                paddingTop: 1,
+              }}
+              variant="titleMedium"
+            >
             Session Load: {document.sessionLoad}
           </Text>
 
           <View style={styles.row}>
-            <Text style={styles.paragraph}>You have lifted: </Text>
-            <Text style={styles.paragraph}>
+            <View style={{alignSelf: "center"}}>
+            <Text
+              style={{
+                color: theme.colors.textColor,
+              }}
+              variant="titleSmall"
+            >You have lifted: </Text>
+            <Text style={{
+                alignSelf: "center",
+                color: theme.colors.textColor,
+              }}>
               {document.elephants.toFixed(1)}{" "}
+              <MaterialCommunityIcons name="elephant" size={16} color="white" />
             </Text>
-            <MaterialCommunityIcons name="elephant" size={24} color="white" />
-            <Text style={styles.paragraph}>Elephants</Text>
+            
+            </View>
           </View>
           {/* Lift Name */}
           <InputField
@@ -182,25 +226,17 @@ export default function SessionScreen({ route, navigation }){
             onChangeText={(text) => setNewReps(text)}
           />
           <Button
-            onPress={handleSubmit}
-            backgroundColor="#c8102e"
-            title="ADD LIFT"
-            tileColor="#fff"
-            titleSize={16}
-            containerStyle={{
-              marginBottom: 12,
-            }}
-          />
-          <Button
-            onPress={handleEndSession}
-            backgroundColor="#c8102e"
-            title="END SESSION"
-            tileColor="#fff"
-            titleSize={16}
-            containerStyle={{
-              marginBottom: 12,
-            }}
-          />
+        onPress={handleSubmit}
+        mode="elevated"
+        buttonColor={theme.colors.secondary}
+        textColor="#ffffff">ADD LIFT</Button>
+        <Text style={{color: theme.colors.textColor, alignSelf: 'center',
+    paddingBottom: 2, paddingTop: 2}} variant="labelSmall">Complete Session</Text>
+     <Button
+        onPress={handleEndSession}
+        mode="elevated"
+        buttonColor={theme.colors.secondary}
+        textColor="#ffffff">END SESSION</Button>
           <ScrollView style={styles.scrollView}>
             {document.lifts.map((lift) => {
               return (
@@ -219,14 +255,13 @@ export default function SessionScreen({ route, navigation }){
             <AntDesign
               onPress={() => navigation.navigate("Home")}
               name="home"
-              size={36}
+              size={24}
               color="#A2AAAD"
             />
-            <MaterialCommunityIcons name="dumbbell" size={36} color="#A2AAAD" />
             <AntDesign
               onPress={() => navigation.navigate("Profile")}
               name="user"
-              size={36}
+              size={24}
               color="#A2AAAD"
             />
           </View>
@@ -242,28 +277,21 @@ export default function SessionScreen({ route, navigation }){
     },
     content: {
       flex: 1,
-      padding: 36,
+      padding: 16,
     },
     footer: {
       backgroundColor: "#0C2340",
-      padding: 12,
+      padding: 14,
     },
     row: {
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
-      margin: 8
+      margin: 4
     },
     paragraph: {
       margin: 4,
       fontSize: 16,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: '#ffffff',
-    },
-    title: {
-      margin: 4,
-      fontSize: 20,
       fontWeight: 'bold',
       textAlign: 'center',
       color: '#ffffff',
@@ -282,14 +310,7 @@ export default function SessionScreen({ route, navigation }){
       margin: 8,
       borderBottomWidth: .5,
       borderBottomColor: '#ffffff',
-      padding: 4
-    },
-    header: {
-      margin: 4,
-      fontSize: 20,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: '#ffffff',
+      padding: 2
     },
   });
   

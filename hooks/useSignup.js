@@ -39,6 +39,7 @@ export const useSignup = () => {
         city: 'Anytown',
         st: 'St',
         bio: 'Update your bio',
+        lifetimeLoad: 0,
         joined: timestamp.fromDate(new Date()),
       })
 

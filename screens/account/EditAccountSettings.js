@@ -1,13 +1,16 @@
 import { useState } from 'react'
-import { useAuthContext } from '../hooks/useAuthContext'
-import { projectAuth } from '../firebase/config'
-import { StyleSheet, Text, View } from 'react-native';
-import { Button, InputField } from '../components';
+import { useAuthContext } from '../../hooks/useAuthContext'
+import { useTheme } from 'react-native-paper';
+import { projectAuth } from '../../firebase/config'
+import { StyleSheet, View } from 'react-native';
+import { Text, Button } from 'react-native-paper';
+import { InputField } from '../../components';
 import { StatusBar } from 'expo-status-bar';
 import * as firebase from 'firebase';
 
 export default function EditAccountSettingsScreen({ navigation }){
     const { user } = useAuthContext()
+    const theme = useTheme();
     const [currentPassword, setCurrentPassword] = useState()
     const [newPassword, setNewPassword] = useState()
     const [newEmail, setNewEmail] = useState()
@@ -51,13 +54,36 @@ export default function EditAccountSettingsScreen({ navigation }){
       }
 
     return (
-      <View style={styles.container}>
+      <View
+        style={{
+          backgroundColor: theme.colors.background,
+          flex: 1,
+          paddingTop: 24,
+          paddingHorizontal: 36,
+        }}
+      >
         <StatusBar style="light" />
         <View style={styles.content}>
         <View style={styles.headerRow}>
-            <Text style={styles.header}>EDIT ACCOUNT SETTINGS</Text>
+        <Text
+              style={{
+                color: theme.colors.textColor,
+                alignSelf: "center",
+                paddingBottom: 12,
+                paddingTop: 12,
+              }}
+              variant="titleMedium"
+            >ACCOUNT SETTINGS</Text>
           </View>
-          <Text style={styles.paragraph}>Current Password is required to change password or email</Text>
+          <Text
+            style={{
+              color: theme.colors.textColor,
+              alignSelf: "center",
+              paddingBottom: 12,
+              paddingTop: 12,
+            }}
+            variant="titleMedium"
+          >Current Password is required to change password or email</Text>
         <InputField
           inputStyle={{
             fontSize: 14
@@ -97,16 +123,15 @@ export default function EditAccountSettingsScreen({ navigation }){
           onChangeText={text => setNewPassword(text)}
           handlePasswordVisibility={handlePasswordVisibility}
         />
-        <Button
-        onPress={handlePasswordChange}
-        backgroundColor='#418FDE'
-        title='UPDATE PASSWORD'
-        tileColor='#fff'
-        titleSize={20}
-        containerStyle={{
-          marginBottom: 24
-        }}
-      />
+        
+         <Button
+            onPress={handlePasswordChange}
+            mode="elevated"
+        buttonColor={theme.colors.primary}
+        textColor="#ffffff">UPDATE PASSWORD</Button>
+        <View  style={{
+          paddingTop: 24,
+        }}>
         <InputField
           inputStyle={{
             fontSize: 14
@@ -124,80 +149,37 @@ export default function EditAccountSettingsScreen({ navigation }){
           value={newEmail}
           onChangeText={text => setNewEmail(text)}
         />
+        </View>
         <Button
-        onPress={handleEmailChange}
-        backgroundColor='#418FDE'
-        title='UPDATE EMAIL'
-        tileColor='#fff'
-        titleSize={20}
-        containerStyle={{
-          marginBottom: 24
-        }}
-      />
-       <Button
-        onPress={() => navigation.navigate("DeleteAccount")}
-        backgroundColor='#C8102E'
-        title='DELETE ACCOUNT'
-        tileColor='#fff'
-        titleSize={20}
-        containerStyle={{
-          marginBottom: 24
-        }}
-      />
-      <Button
-        onPress={() => navigation.navigate("Profile")}
-        backgroundColor='#C8102E'
-        title='CANCEL'
-        tileColor='#fff'
-        titleSize={20}
-        containerStyle={{
-          marginBottom: 24
-        }}
-      />
+            onPress={handleEmailChange}
+            mode="elevated"
+        buttonColor={theme.colors.primary}
+        textColor="#ffffff">UPDATE EMAIL</Button>
+        <View style={styles.row}><Button
+            onPress={() => navigation.navigate("DeleteAccount")}
+            mode="elevated"
+        buttonColor={theme.colors.primary}
+        textColor="#ffffff">DELETE ACCOUNT</Button></View>
+        <View style={styles.row}><Button
+            onPress={() => navigation.navigate("Profile")}
+            mode="elevated"
+        buttonColor={theme.colors.primary}
+        textColor="#ffffff">CANCEL</Button></View>
         </View>
       </View>
     );
   }
   
   const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#0C2340',
-    },
     content: {
       flex: 1,
       padding: 36,
-    },
-    footer: {
-      backgroundColor: "#0C2340",
-      padding: 12,
     },
     row: {
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
       margin: 8
-    },
-    paragraph: {
-      margin: 4,
-      fontSize: 16,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: '#ffffff',
-    },
-    title: {
-      margin: 4,
-      fontSize: 20,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: '#ffffff',
-    },
-    scrollView: {
-      marginHorizontal: 8,
-    },
-    list: {
-      marginBottom: 8,
-      marginTop: 8,
     },
     headerRow: {
       flexDirection: 'row',
@@ -207,12 +189,5 @@ export default function EditAccountSettingsScreen({ navigation }){
       borderBottomWidth: .5,
       borderBottomColor: '#ffffff',
       padding: 4
-    },
-    header: {
-      margin: 4,
-      fontSize: 20,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: '#ffffff',
     },
   });
