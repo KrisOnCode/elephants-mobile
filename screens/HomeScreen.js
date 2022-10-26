@@ -62,7 +62,7 @@ export default function HomeScreen({ navigation }){
                 paddingTop: 12,
               }}
               variant="titleSmall"
-            >Today's Workout</Text>
+            >Start Today's Workout</Text>
           <View style={styles.row}>
             <MaterialCommunityIcons
               onPress={handleSubmit}
