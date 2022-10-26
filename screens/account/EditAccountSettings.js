@@ -2,64 +2,66 @@ import { useState } from 'react'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useTheme } from 'react-native-paper';
 import { projectAuth } from '../../firebase/config'
-import { StyleSheet, View } from 'react-native';
-import { Text, Button } from 'react-native-paper';
-import { InputField } from '../../components';
-import { StatusBar } from 'expo-status-bar';
 import * as firebase from 'firebase';
+import { StyleSheet, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { InputField } from '../../components'
 
-export default function EditAccountSettingsScreen({ navigation }){
-    const { user } = useAuthContext()
-    const theme = useTheme();
-    const [currentPassword, setCurrentPassword] = useState()
-    const [newPassword, setNewPassword] = useState()
-    const [newEmail, setNewEmail] = useState()
-    const [passwordVisibility, setPasswordVisibility] = useState(true);
-    const [rightIcon, setRightIcon] = useState('eye');
-    
-    const handlePasswordVisibility = () => {
-        if (rightIcon === 'eye') {
-          setRightIcon('eye-off');
-          setPasswordVisibility(!passwordVisibility);
-        } else if (rightIcon === 'eye-off') {
-          setRightIcon('eye');
-          setPasswordVisibility(!passwordVisibility);
-        }
-      };
+import { Text, Button } from 'react-native-paper';
 
-    const reauthenticate = (currentPassword) => {
-        const user = projectAuth.currentUser;
-        var cred = firebase.auth.EmailAuthProvider.credential(user.email, currentPassword);
-        return user.reauthenticateWithCredential(cred);
-      }
+export default function EditAccountScreen({ navigation }){
+  const theme = useTheme();
+  const { user } = useAuthContext()
+  const [currentPassword, setCurrentPassword] = useState()
+  const [newPassword, setNewPassword] = useState()
+  const [newEmail, setNewEmail] = useState()
+  const [passwordVisibility, setPasswordVisibility] = useState(true);
+  const [rightIcon, setRightIcon] = useState('eye');
 
-      const handlePasswordChange = () => {
-        reauthenticate(currentPassword).then(() => {
-          const user = projectAuth.currentUser;
-          user.updatePassword(newPassword).then(() => {
-            Alert.alert("Password was changed");
-          }).catch((error) => { console.log(error.message); });
-        }).catch((error) => { console.log(error.message) });
-        navigation.navigate("Profile")
-      }
-    
-      const handleEmailChange = () => {
-        reauthenticate(currentPassword).then(() => {
-          const user = projectAuth.currentUser;
-          user.updateEmail(newEmail).then(() => {
-            Alert.alert("Email was changed");
-          }).catch((error) => { console.log(error.message); });
-        }).catch((error) => { console.log(error.message) });
-        navigation.navigate("Profile")
-      }
+  const handlePasswordVisibility = () => {
+    if (rightIcon === 'eye') {
+      setRightIcon('eye-off');
+      setPasswordVisibility(!passwordVisibility);
+    } else if (rightIcon === 'eye-off') {
+      setRightIcon('eye');
+      setPasswordVisibility(!passwordVisibility);
+    }
+  };
 
+  const reauthenticate = (currentPassword) => {
+    const user = projectAuth.currentUser;
+    var cred = firebase.auth.EmailAuthProvider.credential(user.email, currentPassword);
+    return user.reauthenticateWithCredential(cred);
+  }
+
+  const handlePasswordChange = () => {
+    reauthenticate(currentPassword).then(() => {
+      const user = projectAuth.currentUser;
+      user.updatePassword(newPassword).then(() => {
+        Alert.alert("Password was changed");
+      }).catch((error) => { console.log(error.message); });
+    }).catch((error) => { console.log(error.message) });
+    navigation.navigate("Profile")
+  }
+
+  const handleEmailChange = () => {
+    reauthenticate(currentPassword).then(() => {
+      const user = projectAuth.currentUser;
+      user.updateEmail(newEmail).then(() => {
+        Alert.alert("Email was changed");
+      }).catch((error) => { console.log(error.message); });
+    }).catch((error) => { console.log(error.message) });
+    navigation.navigate("Profile")
+  }
+
+  
     return (
       <View
         style={{
           backgroundColor: theme.colors.background,
           flex: 1,
           paddingTop: 24,
-          paddingHorizontal: 36,
+          paddingHorizontal: 16,
         }}
       >
         <StatusBar style="light" />
@@ -69,11 +71,12 @@ export default function EditAccountSettingsScreen({ navigation }){
               style={{
                 color: theme.colors.textColor,
                 alignSelf: "center",
-                paddingBottom: 12,
-                paddingTop: 12,
+                paddingBottom: 2,
+                paddingTop: 2,
               }}
               variant="titleMedium"
-            >ACCOUNT SETTINGS</Text>
+            >Update Account Settings</Text>
+            
           </View>
           <Text
             style={{
@@ -82,9 +85,9 @@ export default function EditAccountSettingsScreen({ navigation }){
               paddingBottom: 12,
               paddingTop: 12,
             }}
-            variant="titleMedium"
+            variant="bodyLarge"
           >Current Password is required to change password or email</Text>
-        <InputField
+          <InputField
           inputStyle={{
             fontSize: 14
           }}
@@ -103,8 +106,17 @@ export default function EditAccountSettingsScreen({ navigation }){
           onChangeText={text => setCurrentPassword(text)}
           handlePasswordVisibility={handlePasswordVisibility}
         />
-         
-        <InputField
+        
+         <Text
+            style={{
+              color: theme.colors.textColor,
+              alignSelf: "center",
+              paddingBottom: 12,
+              paddingTop: 12,
+            }}
+            variant="bodyLarge"
+          >If you wish to change your password, enter a new password. To keep your current password, leave as is.</Text>
+           <InputField
           inputStyle={{
             fontSize: 14
           }}
@@ -123,16 +135,21 @@ export default function EditAccountSettingsScreen({ navigation }){
           onChangeText={text => setNewPassword(text)}
           handlePasswordVisibility={handlePasswordVisibility}
         />
-        
-         <Button
+        <Button
             onPress={handlePasswordChange}
             mode="elevated"
         buttonColor={theme.colors.primary}
         textColor="#ffffff">UPDATE PASSWORD</Button>
-        <View  style={{
-          paddingTop: 24,
-        }}>
-        <InputField
+          <Text
+            style={{
+              color: theme.colors.textColor,
+              alignSelf: "center",
+              paddingBottom: 12,
+              paddingTop: 12,
+            }}
+            variant="bodyLarge"
+          >If you wish to change your email, enter a new email. To keep your current email, leave as is.</Text>
+           <InputField
           inputStyle={{
             fontSize: 14
           }}
@@ -149,23 +166,27 @@ export default function EditAccountSettingsScreen({ navigation }){
           value={newEmail}
           onChangeText={text => setNewEmail(text)}
         />
-        </View>
         <Button
             onPress={handleEmailChange}
             mode="elevated"
         buttonColor={theme.colors.primary}
         textColor="#ffffff">UPDATE EMAIL</Button>
-        <View style={styles.row}><Button
-            onPress={() => navigation.navigate("DeleteAccount")}
-            mode="elevated"
-        buttonColor={theme.colors.primary}
-        textColor="#ffffff">DELETE ACCOUNT</Button></View>
-        <View style={styles.row}><Button
+        <Text
+            style={{
+              color: theme.colors.textColor,
+              alignSelf: "center",
+              paddingBottom: 12,
+              paddingTop: 12,
+            }}
+            variant="bodyLarge"
+          >If you do not wish to make any changes, return to profile.</Text>
+          <Button
             onPress={() => navigation.navigate("Profile")}
             mode="elevated"
         buttonColor={theme.colors.primary}
-        textColor="#ffffff">CANCEL</Button></View>
+        textColor="#ffffff">CANCEL</Button>
         </View>
+        
       </View>
     );
   }
@@ -173,21 +194,21 @@ export default function EditAccountSettingsScreen({ navigation }){
   const styles = StyleSheet.create({
     content: {
       flex: 1,
-      padding: 36,
-    },
-    row: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      alignItems: 'center',
-      margin: 8
+      padding: 12,
     },
     headerRow: {
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
       margin: 8,
-      borderBottomWidth: .5,
+      borderBottomWidth: 1,
       borderBottomColor: '#ffffff',
-      padding: 4
+      padding: 4,
+    },
+    row: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      margin: 4
     },
   });

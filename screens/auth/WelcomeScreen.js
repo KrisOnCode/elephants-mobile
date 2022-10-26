@@ -7,7 +7,7 @@ import logo from '../../assets/logo.png'
 export default function WelcomeScreen({ navigation }) { 
   const theme = useTheme();
   return (
-    <View style={{ backgroundColor: theme.colors.background, flex: 1, paddingTop: 50, paddingHorizontal: 48 }}>
+    <View style={{ backgroundColor: theme.colors.background, flex: 1, paddingTop: 120, paddingHorizontal: 48 }}>
       <StatusBar style='light' />
       <Image style={styles.logo} source={logo} />
       <Text style={{color: theme.colors.textColor, alignSelf: 'center',

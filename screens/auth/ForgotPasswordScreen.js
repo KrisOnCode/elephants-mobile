@@ -18,7 +18,7 @@ export default function ForgotPasswordScreen({ navigation }){
       }
 
     return (
-      <View style={{ backgroundColor: theme.colors.background, flex: 1, paddingTop: 50, paddingHorizontal: 48 }}>
+      <View style={{ backgroundColor: theme.colors.background, flex: 1, paddingTop: 120, paddingHorizontal: 48 }}>
         <StatusBar style='light' />
         <Image style={styles.logo} source={logo} /> 
         <Text style={{color: theme.colors.textColor, alignSelf: 'center',
@@ -59,7 +59,9 @@ export default function ForgotPasswordScreen({ navigation }){
 const styles = StyleSheet.create({
   logo: {
     alignSelf: 'center',
-    marginTop: 12,
-    marginBottom: 12
+    paddingTop: 24,
+    marginBottom: 12,
+    height: 120,
+    width: 120,
   }
 });

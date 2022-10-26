@@ -34,7 +34,7 @@ export default function SignupScreen({ navigation }) {
   
 
   return (
-    <View style={{ backgroundColor: theme.colors.background, flex: 1, paddingTop: 50, paddingHorizontal: 48 }}>
+    <View style={{ backgroundColor: theme.colors.background, flex: 1, paddingTop: 120, paddingHorizontal: 48 }}>
       <StatusBar style='light' />
       <Image style={styles.logo} source={logo} />
       <Text style={{color: theme.colors.textColor, alignSelf: 'center',
@@ -112,6 +112,8 @@ const styles = StyleSheet.create({
   logo: {
     alignSelf: 'center',
     paddingTop: 24,
-    marginBottom: 12
+    marginBottom: 12,
+    height: 120,
+    width: 120,
   }
 });

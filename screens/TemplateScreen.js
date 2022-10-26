@@ -1,26 +1,45 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
-
+import { useTheme } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 export default function TemplateScreen({ navigation }){
+  const theme = useTheme();
     return (
-      <View style={styles.container}>
+      <View
+        style={{
+          backgroundColor: theme.colors.background,
+          flex: 1,
+          paddingTop: 24,
+          paddingHorizontal: 16,
+        }}
+      >
         <StatusBar style="light" />
         <View style={styles.content}>
-          
+        <View style={styles.headerRow}>
+        <Text
+              style={{
+                color: theme.colors.textColor,
+                alignSelf: "center",
+                paddingBottom: 2,
+                paddingTop: 2,
+              }}
+              variant="titleMedium"
+            >Screen Header</Text>
+          </View>
         </View>
         <View style={styles.footer}>
           <View style={styles.row}>
             <AntDesign
               onPress={() => navigation.navigate("Home")}
               name="home"
-              size={36}
+              size={24}
               color="#A2AAAD"
             />
             <AntDesign
               onPress={() => navigation.navigate("Profile")}
               name="user"
-              size={36}
+              size={24}
               color="#A2AAAD"
             />
           </View>
@@ -30,43 +49,27 @@ export default function TemplateScreen({ navigation }){
   }
   
   const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#0C2340',
-    },
     content: {
       flex: 1,
-      padding: 36,
+      padding: 12,
+    },
+    headerRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      margin: 8,
+      borderBottomWidth: 1,
+      borderBottomColor: '#ffffff',
+      padding: 4
     },
     footer: {
       backgroundColor: "#0C2340",
-      padding: 12,
+      padding: 16,
     },
     row: {
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
-      margin: 8
+      margin: 4
     },
-    paragraph: {
-      margin: 4,
-      fontSize: 16,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: '#ffffff',
-    },
-    title: {
-      margin: 4,
-      fontSize: 20,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: '#ffffff',
-    },
-    scrollView: {
-      marginHorizontal: 8,
-    },
-    list: {
-      marginBottom: 8,
-      marginTop: 8,
-    }
   });
