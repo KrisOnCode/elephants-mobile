@@ -96,7 +96,7 @@ export default function SessionScreen({ route, navigation }){
         style={{
           backgroundColor: theme.colors.background,
           flex: 1,
-          paddingTop: 4,
+          paddingTop: 24,
           paddingHorizontal: 16,
         }}
       >
@@ -111,7 +111,7 @@ export default function SessionScreen({ route, navigation }){
                 paddingTop: 2,
               }}
               variant="titleMedium"
-            >Today's Session</Text>
+            >Today's Workout</Text>
           </View>
           <Text
               style={{
@@ -135,7 +135,7 @@ export default function SessionScreen({ route, navigation }){
               }}
               variant="titleMedium"
             >
-            Session Load: {document.sessionLoad}
+            Today's Load: {document.sessionLoad}
           </Text>
 
           <View style={styles.row}>
@@ -236,7 +236,7 @@ export default function SessionScreen({ route, navigation }){
         onPress={handleEndSession}
         mode="elevated"
         buttonColor={theme.colors.secondary}
-        textColor="#ffffff">END SESSION</Button>
+        textColor="#ffffff">END TODAY'S WORKOUT</Button>
           <ScrollView style={styles.scrollView}>
             {document.lifts.map((lift) => {
               return (
@@ -281,7 +281,7 @@ export default function SessionScreen({ route, navigation }){
     },
     footer: {
       backgroundColor: "#0C2340",
-      padding: 14,
+      padding: 16,
     },
     row: {
       flexDirection: 'row',
@@ -308,9 +308,9 @@ export default function SessionScreen({ route, navigation }){
       justifyContent: 'space-around',
       alignItems: 'center',
       margin: 8,
-      borderBottomWidth: .5,
+      borderBottomWidth: 1,
       borderBottomColor: '#ffffff',
-      padding: 2
+      padding: 4
     },
   });
   

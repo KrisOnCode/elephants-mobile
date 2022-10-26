@@ -17,14 +17,8 @@ export default function HomeScreen({ navigation }){
   // Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const createdBy = { 
-      displayName: user.displayName, 
-      photoURL: user.photoURL,
-      id: user.uid
-    }
-
     const workout = {
-      createdBy,
+      createdBy: user.uid,
       createdAt: timestamp.fromDate(new Date()),
       sessionLoad: 0,
       elephants: 0,
@@ -43,7 +37,7 @@ export default function HomeScreen({ navigation }){
         style={{
           backgroundColor: theme.colors.background,
           flex: 1,
-          paddingTop: 4,
+          paddingTop: 24,
           paddingHorizontal: 16,
         }}
       >
@@ -68,7 +62,7 @@ export default function HomeScreen({ navigation }){
                 paddingTop: 12,
               }}
               variant="titleSmall"
-            >Create A New Workout</Text>
+            >Today's Workout</Text>
           <View style={styles.row}>
             <MaterialCommunityIcons
               onPress={handleSubmit}
@@ -80,7 +74,7 @@ export default function HomeScreen({ navigation }){
           <ScrollView style={styles.scrollView}>
             <View style={styles.listContainer}>
             {documents && documents
-              .filter((document) => document.createdBy.id === user.uid)
+              .filter((document) => document.createdBy === user.uid)
               .map((document) => {
                 return (
                   <View key={document.id} style={styles.list}>
@@ -132,7 +126,7 @@ export default function HomeScreen({ navigation }){
     },
     footer: {
       backgroundColor: "#0C2340",
-      padding: 4,
+      padding: 16,
     },
     row: {
       flexDirection: 'row',
@@ -154,10 +148,10 @@ export default function HomeScreen({ navigation }){
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
-      margin: 4,
-      borderBottomWidth: .5,
+      margin: 8,
+      borderBottomWidth: 1,
       borderBottomColor: '#ffffff',
-      padding: 2
+      padding: 4
     },
     listItem: {
       color: '#ffffff',
