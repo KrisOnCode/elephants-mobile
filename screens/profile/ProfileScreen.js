@@ -1,6 +1,7 @@
 import { useTheme } from 'react-native-paper';
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useDocument } from '../../hooks/useDocument'
+import { useLoad } from '../../hooks/useLoad'
 import { StyleSheet, View } from 'react-native';
 import { Text, Avatar, Surface, Paragraph, Title, Chip } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
@@ -12,13 +13,29 @@ export default function ProfileScreen({ navigation }){
   const theme = useTheme();
   const { user } = useAuthContext()
   const { document, error } = useDocument('users', user.uid)
-
-        if (error) {
+  const { load, loadError } = useLoad('loads', user.uid)
+        
+  if (error) {
         return <Text>{error}</Text>
     }
         if (!document) {
         return <Text>Loading...</Text>
      }
+  
+     if (loadError) {
+      return <Text>{loadError}</Text>
+  }
+      if (!load) {
+      return <Text>Loading...</Text>
+   }
+  
+  // Stats Math
+  const elephant = 6000
+  // Week
+  const loadWeek = load.Oct242022 + load.Oct252022 + load.Oct262022 + load.Oct272022 + load.Oct282022 + load.Oct292022 + load.Oct302022
+  const octoberLoad = load.Oct242022 + load.Oct252022 + load.Oct262022 + load.Oct272022 + load.Oct282022 + load.Oct292022 + load.Oct302022 + load.Oct312022
+  const yearLoad = octoberLoad
+
 
     return (
       <View
@@ -92,7 +109,7 @@ export default function ProfileScreen({ navigation }){
                 }}
                 variant="bodySmall">
                   <MaterialCommunityIcons name="elephant" size={12} color="white" />{" "}
-                  Since Joining {(document.lifetimeLoad / 6000).toFixed(1)}
+                  Since Joining {(document.lifetimeLoad / elephant).toFixed(1)}
                   </Text>
               </Chip>
               {/* Yaer Chip */}
@@ -102,7 +119,7 @@ export default function ProfileScreen({ navigation }){
                 }}
                 variant="bodySmall">
                   <MaterialCommunityIcons name="calendar" size={12} color="white" />{" "}
-                  This Year 40.0
+                  This Year {(yearLoad / elephant).toFixed(1)}
               </Text>
               </Chip>
             </View>
@@ -114,7 +131,7 @@ export default function ProfileScreen({ navigation }){
                 }}
                 variant="bodySmall">
                   <MaterialCommunityIcons name="pumpkin" size={12} color="white" />{" "}
-                  This Month 40.0
+                  This Month {(octoberLoad / elephant).toFixed(1)}
               </Text>
               </Chip>
               <Chip style={styles.statsChip}>
@@ -123,7 +140,7 @@ export default function ProfileScreen({ navigation }){
                 }}
                 variant="bodySmall">
                   <MaterialCommunityIcons name="calendar-week" size={12} color="white" />{" "}
-                  This Week 40.0
+                  This Week {(loadWeek / elephant).toFixed(1)}
               </Text>
               </Chip>
             </View>

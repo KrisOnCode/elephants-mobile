@@ -28,8 +28,6 @@ export default function SessionScreen({ route, navigation }){
   const [newReps, setNewReps] = useState('')
   const today = moment().format('MMMDDYYYY')
 
-  console.log(today)
-
   if (error) {
     return <Text>{error}</Text>
   }
