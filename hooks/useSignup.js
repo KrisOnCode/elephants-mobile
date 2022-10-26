@@ -23,12 +23,6 @@ export const useSignup = () => {
       // upload user thumbnail
       const imgUrl = "https://firebasestorage.googleapis.com/v0/b/user-management-b8a9d.appspot.com/o/defaults%2Felephant.png?alt=media&token=c278c9ca-38e9-46ee-a0cd-8335569ba81d"
       
-     
-      
-      
-      // add display AND PHOTO_URL name to user
-      await res.user.updateProfile({ displayName: username, photoURL: imgUrl })
-
       // create a user document
       await projectFirestore.collection('users').doc(res.user.uid).set({ 
         online: true,

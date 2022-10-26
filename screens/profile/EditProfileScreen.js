@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import { useTheme } from 'react-native-paper';
-import { StyleSheet, View, Image, ScrollView } from 'react-native';
-import { Text, Button, Avatar } from 'react-native-paper';
-import { StatusBar } from 'expo-status-bar';
 import { useLogout } from '../../hooks/useLogout'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useDocument } from '../../hooks/useDocument'
-import { InputField } from '../../components';
 import { projectFirestore } from '../../firebase/config';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import { InputField } from '../../components'
+import { Text, Button, Avatar } from 'react-native-paper';
+import { StatusBar } from 'expo-status-bar';
 
 export default function EditProfileScreen({ navigation }){
-  const { logout } = useLogout()
   const theme = useTheme();
   const { user } = useAuthContext()
+  const { logout } = useLogout()
   const [newFirstname, setNewFirstname] = useState()
   const [newLastname, setNewLastname] = useState()
   const [newCity, setNewCity] = useState()
@@ -68,33 +68,30 @@ export default function EditProfileScreen({ navigation }){
       await projectFirestore.collection('users').doc(user.uid).update({ 
         username: newUsername
       })
-      await user.updateProfile({
-        displayName: newUsername,
-      })
      }
      
+
     return (
       <View
         style={{
           backgroundColor: theme.colors.background,
           flex: 1,
-          paddingTop: 16,
-          paddingHorizontal: 24,
+          paddingTop: 24,
+          paddingHorizontal: 16,
         }}
       >
         <StatusBar style="light" />
         <View style={styles.content}>
-          <View style={styles.headerRow}>
-          <Text
+        <View style={styles.headerRow}>
+        <Text
               style={{
                 color: theme.colors.textColor,
                 alignSelf: "center",
-                paddingBottom: 12,
-                paddingTop: 12,
+                paddingBottom: 2,
+                paddingTop: 2,
               }}
               variant="titleMedium"
-            >EDIT PROFILE</Text>
-           
+            >Update Profile</Text>
             <Text
               onPress={() => navigation.navigate("Profile")}
               style={{
@@ -126,6 +123,16 @@ export default function EditProfileScreen({ navigation }){
               UPDATE PROFILE IMAGE
             </Text>
             {/* Update Username */}
+            <Text
+              style={{
+                color: theme.colors.textColor,
+                paddingBottom: 4,
+                paddingTop: 4,
+              }}
+              variant="titleMedium"
+            >
+              Username
+            </Text>
            <InputField
               inputStyle={{
                 fontSize: 14,
@@ -142,15 +149,25 @@ export default function EditProfileScreen({ navigation }){
               value={newUsername}
               onChangeText={(text) => setNewUsername(text)}
             />
-           <View style={styles.row}>
+
             <Button
+            style={styles.button}
             onPress={handleUpdateUsername}
-        mode="elevated"
-        buttonColor={theme.colors.secondary}
-        textColor="#ffffff">UPDATE USERNAME</Button>
-          </View>
+            mode="elevated"
+            buttonColor={theme.colors.secondary}
+            textColor="#ffffff">UPDATE USERNAME</Button>
+
           {/* Update First Name */}
-         
+          <Text
+              style={{
+                color: theme.colors.textColor,
+                paddingBottom: 4,
+                paddingTop: 4,
+              }}
+              variant="titleMedium"
+            >
+              First Name
+            </Text>
             <InputField
               inputStyle={{
                 fontSize: 14,
@@ -167,15 +184,25 @@ export default function EditProfileScreen({ navigation }){
               value={newFirstname}
               onChangeText={(text) => setNewFirstname(text)}
             />
-            <View style={styles.row}>
+            
             <Button
+            style={styles.button}
             onPress={handleUpdateFirstname}
         mode="elevated"
         buttonColor={theme.colors.secondary}
         textColor="#ffffff">UPDATE FIRSTNAME</Button>
-           </View>
+           
             {/* Update Last Name */}
-         
+            <Text
+              style={{
+                color: theme.colors.textColor,
+                paddingBottom: 4,
+                paddingTop: 4,
+              }}
+              variant="titleMedium"
+            >
+              Last Name
+            </Text>
             <InputField
               inputStyle={{
                 fontSize: 14,
@@ -192,15 +219,25 @@ export default function EditProfileScreen({ navigation }){
               value={newLastname}
               onChangeText={(text) => setNewLastname(text)}
             />
-            <View style={styles.row}>
+         
             <Button
+            style={styles.button}
             onPress={handleUpdateLastname}
         mode="elevated"
         buttonColor={theme.colors.secondary}
         textColor="#ffffff">UPDATE LASTNAME</Button>
-           </View>
-              {/* Update City */}
          
+              {/* Update City */}
+              <Text
+              style={{
+                color: theme.colors.textColor,
+                paddingBottom: 4,
+                paddingTop: 4,
+              }}
+              variant="titleMedium"
+            >
+              City
+            </Text>
             <InputField
               inputStyle={{
                 fontSize: 14,
@@ -217,15 +254,25 @@ export default function EditProfileScreen({ navigation }){
               value={newCity}
               onChangeText={(text) => setNewCity(text)}
             />
-            <View style={styles.row}>
+         
             <Button
+            style={styles.button}
                   onPress={handleUpdateCity}
         mode="elevated"
         buttonColor={theme.colors.secondary}
         textColor="#ffffff">UPDATE CITY</Button>
-           </View>
-               {/* Update State */}
          
+               {/* Update State */}
+               <Text
+              style={{
+                color: theme.colors.textColor,
+                paddingBottom: 4,
+                paddingTop: 4,
+              }}
+              variant="titleMedium"
+            >
+              State
+            </Text>
             <InputField
               inputStyle={{
                 fontSize: 14,
@@ -242,15 +289,25 @@ export default function EditProfileScreen({ navigation }){
               value={newSt}
               onChangeText={(text) => setNewSt(text)}
             />
-            <View style={styles.row}>
+    
             <Button
+            style={styles.button}
                   onPress={handleUpdateSt}
         mode="elevated"
         buttonColor={theme.colors.secondary}
         textColor="#ffffff">UPDATE STATE</Button>
-        </View>
+      
              {/* Update Bio */}
-             
+             <Text
+              style={{
+                color: theme.colors.textColor,
+                paddingBottom: 4,
+                paddingTop: 4,
+              }}
+              variant="titleMedium"
+            >
+              Bio
+            </Text>
              <InputField
               inputStyle={{
                 fontSize: 14,
@@ -267,28 +324,31 @@ export default function EditProfileScreen({ navigation }){
               value={newBio}
               onChangeText={(text) => setNewBio(text)}
             />
-            <View style={styles.row}>
+           
              <Button
+             style={styles.button}
                   onPress={handleUpdateBio}
         mode="elevated"
         buttonColor={theme.colors.secondary}
         textColor="#ffffff">UPDATE BIO</Button>
-        </View>
-        <View style={styles.row}>
+     
+       
         <Button
+        style={styles.button}
                   onPress={logout}
         mode="elevated"
         buttonColor={theme.colors.primary}
         textColor="#ffffff">SIGN OUT</Button>
-        </View>
+        
         {/* Go to account settings */}
-        <View style={styles.row}>
+        
         <Button
+        style={styles.button}
          onPress={() => navigation.navigate("AccountSettings")}
         mode="elevated"
         buttonColor={theme.colors.primary}
         textColor="#ffffff">ACCOUNT SETTINGS</Button>
-          </View>
+       
        
           
           </ScrollView>
@@ -300,24 +360,28 @@ export default function EditProfileScreen({ navigation }){
   const styles = StyleSheet.create({
     content: {
       flex: 1,
-      padding: 36,
-    },
-    row: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      alignItems: 'center',
-      margin: 8
+      padding: 12,
     },
     headerRow: {
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
       margin: 8,
-      borderBottomWidth: .5,
+      borderBottomWidth: 1,
       borderBottomColor: '#ffffff',
       padding: 4
+    },
+    row: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      margin: 4
     },
     scrollView: {
       marginHorizontal: 8,
     },
+    button: {
+      marginTop: 8,
+      marginBottom: 8,
+    }
   });
