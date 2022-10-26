@@ -2,7 +2,7 @@ import { useTheme } from 'react-native-paper';
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useDocument } from '../../hooks/useDocument'
 import { StyleSheet, View } from 'react-native';
-import { Text, Avatar, Surface, Paragraph, Title } from 'react-native-paper';
+import { Text, Avatar, Surface, Paragraph, Title, Chip } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -72,9 +72,61 @@ export default function ProfileScreen({ navigation }){
               <View style={styles.profileRow}>
                 <Paragraph style={styles.cardText}>{document.bio}</Paragraph>
               </View>
-            </Surface>  
+            </Surface>
           </View>
-          
+          <Text
+              style={{
+                color: theme.colors.textColor,
+                paddingBottom: 12,
+                paddingTop: 12,
+              }}
+              variant="titleMedium"
+            >
+              Elephants Lifted
+            </Text>
+            <View style={styles.statsRow}>
+              {/* Lifetime Chip */}
+              <Chip style={styles.statsChip}>
+              <Text style={{
+                  color: theme.colors.textColor,
+                }}
+                variant="bodySmall">
+                  <MaterialCommunityIcons name="elephant" size={12} color="white" />{" "}
+                  Since Joining {(document.lifetimeLoad / 6000).toFixed(1)}
+                  </Text>
+              </Chip>
+              {/* Yaer Chip */}
+              <Chip style={styles.statsChip}>
+              <Text style={{
+                  color: theme.colors.textColor,
+                }}
+                variant="bodySmall">
+                  <MaterialCommunityIcons name="calendar" size={12} color="white" />{" "}
+                  This Year 40.0
+              </Text>
+              </Chip>
+            </View>
+            <View style={styles.statsRow}>
+              {/* Month Chip */}
+              <Chip style={styles.statsChip}>
+              <Text style={{
+                  color: theme.colors.textColor,
+                }}
+                variant="bodySmall">
+                  <MaterialCommunityIcons name="pumpkin" size={12} color="white" />{" "}
+                  This Month 40.0
+              </Text>
+              </Chip>
+              <Chip style={styles.statsChip}>
+              <Text style={{
+                  color: theme.colors.textColor,
+                }}
+                variant="bodySmall">
+                  <MaterialCommunityIcons name="calendar-week" size={12} color="white" />{" "}
+                  This Week 40.0
+              </Text>
+              </Chip>
+            </View>
         </View>
         <View style={styles.footer}>
           <View style={styles.row}>
@@ -138,5 +190,16 @@ export default function ProfileScreen({ navigation }){
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
+    },
+    statsChip: {
+      height: 40,
+      width: 160,
+      backgroundColor: '#54585A',
+    },
+    statsRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      padding: 2,
     }
   });
