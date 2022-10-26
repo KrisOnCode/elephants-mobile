@@ -174,5 +174,6 @@ export default function HomeScreen({ navigation }){
       justifyContent: 'center',
       backgroundColor: '#418FDE',
     },
+
   });
   
