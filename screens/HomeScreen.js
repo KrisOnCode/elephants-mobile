@@ -140,9 +140,14 @@ export default function HomeScreen({ navigation }){
     list: {
       marginBottom: 8,
       marginTop: 8,
+      width: '50%',
+      padding: 16,
     },
     listContainer: {
-      alignItems: 'center'
+      flex: 1,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      alignItems: 'flex-start',
     },
     headerRow: {
       flexDirection: 'row',
